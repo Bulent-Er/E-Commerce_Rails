@@ -5,10 +5,17 @@ module Api
     # GET /categories or /categories.json
     def index
       @categories = Category.all
+      respond_to do |format|
+        format.html
+        format.json { render json: @categories  }
+      end
     end
 
     # GET /categories/1 or /categories/1.json
     def show
+      respond_to do |format|
+        format.json { render json: @category  }
+      end
     end
 
     # GET /categories/new

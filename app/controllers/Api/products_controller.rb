@@ -6,10 +6,18 @@ module Api
     # GET /products or /products.json
     def index
       @products = Product.all
+
+      respond_to do |format|
+        format.html
+        format.json { render json: @products }
+      end
     end
 
     # GET /products/1 or /products/1.json
     def show
+      respond_to do |format|
+        format.json { render json: @product }
+      end
     end
 
     # GET /products/new
