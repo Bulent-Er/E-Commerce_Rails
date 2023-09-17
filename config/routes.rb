@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  resources :products
-  resources :pruducts
-  resources :categories
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  namespace "api" do
+    resources :products
+    resources :categories
+    root "api/products#index"
+    # Defines the root path route ("/")
+    # root "articles#index"
+  end
 end
