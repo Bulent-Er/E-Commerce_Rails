@@ -20,27 +20,27 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
       post api_products_url, params: { product: { description: @product.description, name: @product.name, price: @product.price, quantity: @product.quantity } }
     end
 
-    assert_redirected_to product_url(Product.last)
+    assert_redirected_to api_product_url(Product.last)
   end
 
   test "should show product" do
-    get product_url(@product)
+    get api_product_url(@product)
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_product_url(@product)
+    get edit_api_product_url(@product)
     assert_response :success
   end
 
   test "should update product" do
-    patch product_url(@product), params: { product: { description: @product.description, name: @product.name, price: @product.price, quantity: @product.quantity } }
+    patch api_product_url(@product), params: { product: { description: @product.description, name: @product.name, price: @product.price, quantity: @product.quantity } }
     assert_redirected_to product_url(@product)
   end
 
   test "should destroy product" do
     assert_difference("Product.count", -1) do
-      delete product_url(@product)
+      delete api_product_url(@product)
     end
 
     assert_redirected_to api_products_url

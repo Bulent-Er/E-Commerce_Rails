@@ -22,7 +22,7 @@ class CategoriesTest < ApplicationSystemTestCase
   end
 
   test "should update Category" do
-    visit category_url(@category)
+    visit api_category_url(@category)
     click_on "Edit this category", match: :first
 
     fill_in "Name", with: @category.name
@@ -33,7 +33,7 @@ class CategoriesTest < ApplicationSystemTestCase
   end
 
   test "should destroy Category" do
-    visit category_url(@category)
+    visit api_category(@category)
     click_on "Destroy this category", match: :first
 
     assert_text "Category was successfully destroyed"
