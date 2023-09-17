@@ -1,2 +1,0 @@
-class Pruduct < ApplicationRecord
-end
