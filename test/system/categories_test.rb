@@ -6,12 +6,12 @@ class CategoriesTest < ApplicationSystemTestCase
   end
 
   test "visiting the index" do
-    visit categories_url
+    visit api_categories_url
     assert_selector "h1", text: "Categories"
   end
 
   test "should create category" do
-    visit categories_url
+    visit api_categories_url
     click_on "New category"
 
     fill_in "Name", with: @category.name

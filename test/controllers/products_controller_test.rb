@@ -6,18 +6,18 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get products_url
+    get api_products_url
     assert_response :success
   end
 
   test "should get new" do
-    get new_product_url
+    get new_api_product_url
     assert_response :success
   end
 
   test "should create product" do
     assert_difference("Product.count") do
-      post products_url, params: { product: { description: @product.description, name: @product.name, price: @product.price, quantity: @product.quantity } }
+      post api_products_url, params: { product: { description: @product.description, name: @product.name, price: @product.price, quantity: @product.quantity } }
     end
 
     assert_redirected_to product_url(Product.last)
@@ -43,6 +43,6 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
       delete product_url(@product)
     end
 
-    assert_redirected_to products_url
+    assert_redirected_to api_products_url
   end
 end
