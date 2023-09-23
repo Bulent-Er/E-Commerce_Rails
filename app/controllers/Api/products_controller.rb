@@ -2,11 +2,12 @@ module Api
   
   class ProductsController < ApplicationController
     before_action :set_product, only: %i[ show edit update destroy ]
+    after_action  :test_method, only: [ :create ] #bu şekilde de kullanabiliriz
 
     # GET /products or /products.json
     def index
       @products = Product.order(created_at: :desc)
-
+       # binding.irb
       respond_to do |format|
         format.json { render json: @products }
         format.html
@@ -16,8 +17,9 @@ module Api
     # GET /products/1 or /products/1.json
     def show
       respond_to do |format|
-        format.json { render json: @product }
-        format.html
+       image = rails_blob_url(@product.product_image)
+       format.json { render json: { product: @product, image: image } }
+       format.html
       end
     end
 
@@ -68,10 +70,17 @@ module Api
       end
     end
 
+    def test_method
+      p "test mothod run and new product created".center(100, "*")
+      # byebug #continue ile devam edebilrsin
+    end
+
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_product
         @product = Product.find(params[:id])
+        # p "before_action method has run".center(10, "@")
+        # byebug #continue ile devam edebilrsin
       end
 
       # Only allow a list of trusted parameters through.
