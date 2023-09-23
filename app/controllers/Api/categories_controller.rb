@@ -14,6 +14,7 @@ module Api
     # GET /categories/1 or /categories/1.json
     def show
       respond_to do |format|
+        format.html
         format.json { render json: @category  }
       end
     end

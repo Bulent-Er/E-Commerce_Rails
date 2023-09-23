@@ -5,11 +5,11 @@ module Api
 
     # GET /products or /products.json
     def index
-      @products = Product.all
+      @products = Product.order(created_at: :desc)
 
       respond_to do |format|
-        format.html
         format.json { render json: @products }
+        format.html
       end
     end
 
@@ -17,6 +17,7 @@ module Api
     def show
       respond_to do |format|
         format.json { render json: @product }
+        format.html
       end
     end
 
@@ -35,11 +36,11 @@ module Api
 
       respond_to do |format|
         if @product.save
+          format.json { render :show, status: :created, location: api_product_url(@product) }
           format.html { redirect_to api_product_url(@product), notice: "Product was successfully created." }
-          format.json { render :show, status: :created, location: @product }
         else
-          format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @product.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_entity , notice: "Product was not created try again!"}
         end
       end
     end
@@ -48,11 +49,11 @@ module Api
     def update
       respond_to do |format|
         if @product.update(product_params)
+          format.json { render :show, status: :ok, location: api_product_url(@product) }
           format.html { redirect_to api_product_url(@product), notice: "Product was successfully updated." }
-          format.json { render :show, status: :ok, location: @product }
         else
-          format.html { render :edit, status: :unprocessable_entity }
           format.json { render json: @product.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_entity }
         end
       end
     end
@@ -63,7 +64,7 @@ module Api
 
       respond_to do |format|
         format.html { redirect_to api_products_url, notice: "Product was successfully destroyed." }
-        format.json { head :no_content }
+        format.json { render json: @products }
       end
     end
 
@@ -75,7 +76,9 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def product_params
-        params.require(:product).permit(:name, :description, :quantity, :price)
+        # params.require(:product).permit(:name, :description, :quantity, :price, :product_image) # bu neden form data ile veri yüklerken hata veriyor
+        params.permit(:name, :description, :quantity, :price, :product_image)
+
       end
   end
 end
