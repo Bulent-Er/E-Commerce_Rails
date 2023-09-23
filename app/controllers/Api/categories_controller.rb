@@ -4,18 +4,18 @@ module Api
 
     # GET /categories or /categories.json
     def index
-      @categories = Category.all
+      @categories = Category.order(created_at: :desc)
       respond_to do |format|
-        format.html
         format.json { render json: @categories  }
+        format.html
       end
     end
 
     # GET /categories/1 or /categories/1.json
     def show
       respond_to do |format|
-        format.html
         format.json { render json: @category  }
+        format.html
       end
     end
 
@@ -34,11 +34,11 @@ module Api
 
       respond_to do |format|
         if @category.save
+          format.json { render :show, status: :created, location: api_product_url(@category) }
           format.html { redirect_to api_category_url(@category), notice: "Category was successfully created." }
-          format.json { render :show, status: :created, location: @category }
         else
-          format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @category.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_entity }
         end
       end
     end
@@ -75,7 +75,7 @@ module Api
 
     # Only allow a list of trusted parameters through.
     def category_params
-      params.require(:category).permit(:name)
+      params.permit(:name)
     end
   end
 end

@@ -1,5 +1,4 @@
 module Api
-  
   class ProductsController < ApplicationController
     before_action :set_product, only: %i[ show edit update destroy ]
     after_action  :test_method, only: [ :create ] #bu şekilde de kullanabiliriz

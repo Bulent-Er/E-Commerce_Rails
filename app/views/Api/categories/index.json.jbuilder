@@ -1,1 +1,1 @@
-json.array! @categories, partial: "categories/category", as: :category
+json.array! @categories, partial: "api/categories/category", as: :category
