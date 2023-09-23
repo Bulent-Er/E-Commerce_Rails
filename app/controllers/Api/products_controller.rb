@@ -35,14 +35,18 @@ module Api
     def create
       @product = Product.new(product_params)
 
-      respond_to do |format|
-        if @product.save
-          format.json { render :show, status: :created, location: api_product_url(@product) }
-          format.html { redirect_to api_product_url(@product), notice: "Product was successfully created." }
-        else
-          format.json { render json: @product.errors, status: :unprocessable_entity }
-          format.html { render :new, status: :unprocessable_entity , notice: "Product was not created try again!"}
+      if @product.valid?
+        respond_to do |format|
+          if @product.save
+            format.json { render :show, status: :created, location: api_product_url(@product) }
+            format.html { redirect_to api_product_url(@product), notice: "Product was successfully created." }
+          else
+            format.json { render json: @product.errors, status: :unprocessable_entity }
+            format.html { render :new, status: :unprocessable_entity , notice: "Product was not created try again!"}
+          end
         end
+      else
+        render json: @product.errors.full_messages
       end
     end
 

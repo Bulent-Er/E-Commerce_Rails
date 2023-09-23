@@ -32,15 +32,20 @@ module Api
     def create
       @category = Category.new(category_params)
 
-      respond_to do |format|
-        if @category.save
-          format.json { render :show, status: :created, location: api_product_url(@category) }
-          format.html { redirect_to api_category_url(@category), notice: "Category was successfully created." }
-        else
-          format.json { render json: @category.errors, status: :unprocessable_entity }
-          format.html { render :new, status: :unprocessable_entity }
+      if @category.valid?
+        respond_to do |format|
+          if @category.save
+            format.json { render :show, status: :created, location: api_product_url(@category) }
+            format.html { redirect_to api_category_url(@category), notice: "Category was successfully created." }
+          else
+            format.json { render json: @category.errors, status: :unprocessable_entity }
+            format.html { render :new, status: :unprocessable_entity }
+          end
         end
+      else
+        render json: @category.errors.full_messages
       end
+
     end
 
     # PATCH/PUT /categories/1 or /categories/1.json
