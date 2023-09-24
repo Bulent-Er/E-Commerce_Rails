@@ -3,6 +3,8 @@ class Category < ApplicationRecord
   after_save :after_save_for_category
 
   validates :name, presence: true, length: { minimum: 2, maximum: 20 }
+  # validates :description, presence: true, length: { minimum: 2, maximum: 200 }
+
 
 end
 

@@ -43,7 +43,7 @@ module Api
           end
         end
       else
-        render json: @category.errors.full_messages
+        render json: @category.errors.full_messages, status: 400
       end
 
     end
@@ -80,7 +80,7 @@ module Api
 
     # Only allow a list of trusted parameters through.
     def category_params
-      params.permit(:name)
+      params.require(:category).permit(:name, :description)
     end
   end
 end

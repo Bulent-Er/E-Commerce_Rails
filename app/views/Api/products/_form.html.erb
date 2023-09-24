@@ -31,6 +31,11 @@
       <%= form.text_field :price %>
     </div>
 
+    <div class= "mb-3">
+      <%= form.label :product_image, style: "display: block" %>
+      <%= form.file_field :product_image %>
+    </div>
+
     <div>
       <%= form.submit %>
     </div>

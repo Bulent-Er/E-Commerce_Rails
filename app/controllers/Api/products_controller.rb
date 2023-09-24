@@ -46,7 +46,7 @@ module Api
           end
         end
       else
-        render json: @product.errors.full_messages
+        render json: @product.errors.full_messages, status: 400
       end
     end
 
@@ -89,7 +89,7 @@ module Api
       # Only allow a list of trusted parameters through.
       def product_params
         # params.require(:product).permit(:name, :description, :quantity, :price, :product_image) # bu neden form data ile veri yüklerken hata veriyor
-        params.permit(:name, :description, :quantity, :price, :product_image)
+        params.require(:product).permit(:name, :description, :quantity, :price, :product_image)
 
       end
   end

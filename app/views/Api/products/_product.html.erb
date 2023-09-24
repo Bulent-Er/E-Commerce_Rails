@@ -19,4 +19,6 @@
     <%= product.price %>
   </p>
 
+  <%= image_tag @product.product_image if @product.product_image.present? %>
+
 </div>
