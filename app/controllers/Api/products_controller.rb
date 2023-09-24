@@ -16,7 +16,7 @@ module Api
     # GET /products/1 or /products/1.json
     def show
       respond_to do |format|
-       image = rails_blob_url(@product.product_image)
+       image = rails_blob_url(@product.product_image) if @product.product_image.present?
        format.json { render json: { product: @product, image: image } }
        format.html
       end
@@ -88,9 +88,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def product_params
-        # params.require(:product).permit(:name, :description, :quantity, :price, :product_image) # bu neden form data ile veri yüklerken hata veriyor
         params.require(:product).permit(:name, :description, :quantity, :price, :product_image)
-
       end
   end
 end
