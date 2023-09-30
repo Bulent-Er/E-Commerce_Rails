@@ -19,6 +19,9 @@
     <%= product.price %>
   </p>
 
-  <%= image_tag @product.product_image if @product.product_image.present? %>
-
+  <p>
+    <strong>Category:</strong>
+    <%= product.category_id %>
+  </p>
+  <%= rails_blob_url(product.product_image) if product.product_image.present? %>
 </div>

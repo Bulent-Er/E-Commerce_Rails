@@ -6,18 +6,19 @@ module Api
     # GET /products or /products.json
     def index
       @products = Product.order(created_at: :desc)
+      render :index
        # binding.irb
-      respond_to do |format|
-        format.json { render json: @products }
-        format.html
-      end
+      # respond_to do |format|
+      #   format.json { render json: { data: { product: @product, category: @product&.category_id}, image: image } }
+      #   format.html
+      # end
     end
 
     # GET /products/1 or /products/1.json
     def show
       respond_to do |format|
        image = rails_blob_url(@product.product_image) if @product.product_image.present?
-       format.json { render json: { product: @product, image: image } }
+       format.json { render json: { data: { product: @product, category: @product.category}, image: image } }
        format.html
       end
     end
@@ -88,7 +89,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def product_params
-        params.require(:product).permit(:name, :description, :quantity, :price, :product_image)
+        params.require(:product).permit(:name, :description, :quantity, :price, :product_image, :category_id)
       end
   end
 end
