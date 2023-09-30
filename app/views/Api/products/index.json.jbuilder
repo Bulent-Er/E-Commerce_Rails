@@ -1,4 +1,3 @@
-# json.products @products, partial: "api/products/product", as: :product
 json.Product @products.each do |product|
   json.name product.name
   json.description product.description
