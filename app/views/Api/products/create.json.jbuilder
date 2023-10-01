@@ -1,6 +1,3 @@
-# json.product @product,  :id, :name, :description, :quantity, :price, :category_id
-# json.image rails_blob_url(@product.product_image) if @product.product_image.present?
-
 json.product do
   json.id @product.id
   json.name @product.name
