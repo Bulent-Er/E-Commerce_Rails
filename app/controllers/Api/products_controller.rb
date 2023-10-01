@@ -1,7 +1,7 @@
 module Api
   class ProductsController < ApplicationController
     before_action :set_product, only: %i[ show edit update destroy ]
-    after_action  :test_method, only: [ :create ] #bu şekilde de kullanabiliriz
+    # after_action  :test_method, only: [ :create ] #bu şekilde de kullanabiliriz
 
     # GET /products or /products.json
     def index
@@ -42,7 +42,8 @@ module Api
         if @product.valid?
           render :create
         else
-          render :error, status: 400
+          handle_error
+          # render :error, status: :unprocessable_entity 
         end
       end
     end
@@ -52,14 +53,33 @@ module Api
       if @product.update(product_params)
         render :update, status: :ok
       else
-        render :error, status: :unprocessable_entity 
+        handle_error
+        # render :error, status: :unprocessable_entity 
       end
     end
 
     # DELETE /products/1 or /products/1.json
     def destroy
-      @product.destroy
-      render :destroy
+      if @product.destroy
+      render :destroy, status: :ok
+      else
+        handle_error
+        # render :error, status: :bad_request 
+      end
+    end
+
+    def get_by_name
+      @products = Product.where(name: params[:name]).order(created_at: :desc)
+      if @products.present?
+        render  "index"
+      else
+        @message = "No products was found searching by name"
+        render json:  @message
+      end
+    end
+
+    def handle_error
+      render :error, status: :bad_request
     end
 
     # def test_method
