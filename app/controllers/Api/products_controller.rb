@@ -1,6 +1,8 @@
 module Api
   class ProductsController < ApplicationController
     before_action :set_product, only: %i[ show edit update destroy ]
+    before_action :authenticate_user!
+
     # after_action  :test_method, only: [ :create ] #bu şekilde de kullanabiliriz
 
     # GET /products or /products.json
