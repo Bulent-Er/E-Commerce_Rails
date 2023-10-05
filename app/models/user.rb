@@ -7,7 +7,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  enum role: [:user, :admin, :superadmin]
+
   validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }
   validates :last_name, presence: true, length: { minimum: 2, maximum: 20 }
   validates :username, presence: true, length: { minimum: 2, maximum: 20 }
+
+
 end

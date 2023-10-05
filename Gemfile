@@ -55,3 +55,5 @@ group :test do
   gem "webdrivers"
 end
 gem "devise_token_auth", "~> 1.2"
+
+gem "pundit", "~> 2.3"
