@@ -7,6 +7,7 @@ module Api
 
     # GET /products or /products.json
     def index
+      # authorize(@product)
       @products = Product.order(created_at: :desc)
       render :index
        # binding.irb
@@ -18,6 +19,7 @@ module Api
 
     # GET /products/1 or /products/1.json
     def show
+      # authorize(@product)
       render "show"
       # respond_to do |format|
       #  image = rails_blob_url(@product.product_image) if @product.product_image.present?

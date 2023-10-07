@@ -6,11 +6,14 @@ module Api
     # GET /categories or /categories.json
     def index
       @categories = Category.order(created_at: :desc)
+      authorize(@categories)
+
       render :index
     end
 
     # GET /categories/1 or /categories/1.json
     def show
+      authorize(@category)
       render :show
     end
 
