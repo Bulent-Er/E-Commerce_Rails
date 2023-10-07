@@ -38,9 +38,9 @@ module Api
     # POST /products or /products.json
     def create
       @product = Product.create(product_params)
-
+      authorize(@product)
       if @product.valid?
-        @product = product.create(product_params)
+        @product = Product.create(product_params)
         if @product.valid?
           render :create
         else
@@ -52,6 +52,7 @@ module Api
 
     # PATCH/PUT /products/1 or /products/1.json
     def update
+      authorize(@product)
       if @product.update(product_params)
         render :update, status: :ok
       else
@@ -62,6 +63,7 @@ module Api
 
     # DELETE /products/1 or /products/1.json
     def destroy
+      authorize(@product)
       if @product.destroy
       render :destroy, status: :ok
       else

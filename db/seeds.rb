@@ -10,3 +10,5 @@ Category.create(name:"Leptop", description: "Office")
   Product.create(name: "Iphone", description: "#{i} Pro", price: 100 * i, quantity: i, category_id: 1)
   Product.create(name: "Iphone", description: "#{i} Pro Max", price: 100 * i, quantity: i, category_id: 1)
 end
+
+User.create(first_name: "Bülent", last_name: "Er", username: "bropil", email: "bropil@gmail.com", password: "123456", password_confirmation: "123456")

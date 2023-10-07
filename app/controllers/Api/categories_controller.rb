@@ -26,6 +26,8 @@ module Api
     # POST /categories or /categories.json
     def create
       @category = Category.create(category_params)
+      authorize(@category)
+
       if @category.valid?
         render :create
       else
@@ -35,6 +37,7 @@ module Api
 
     # PATCH/PUT /categories/1 or /categories/1.json
     def update
+      authorize(@category)
       if @category.update(category_params)
         render :update, status: :ok
       else
@@ -44,6 +47,7 @@ module Api
 
     # DELETE /categories/1 or /categories/1.json
     def destroy
+      authorize(@category)
       @category.destroy
       render :destroy, status: :ok
     end
