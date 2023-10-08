@@ -11,13 +11,19 @@ module Api
     # GET /products or /products.json
     def index
       # authorize(@product)
-      @products = Product.order(created_at: :desc)
-      render :index
+      if Rails.cache.exist?("product_query_result")
+        cached_data = Rails.cache.read("product_query_result")
+        render json: { data: cached_data, message: "The cached data has been listed above" }
+      else
+        @products = Product.all.order(created_at: :desc)
+        Rails.cache.write("product_query_result", @products, expires_in: 1.hour)
+        render :index
        # binding.irb
       # respond_to do |format|
       #   format.json { render json: { data: { product: @product, category: @product&.category_id}, image: image } }
       #   format.html
       # end
+      end
     end
 
     # GET /products/1 or /products/1.json
@@ -43,7 +49,7 @@ module Api
     # POST /products or /products.json
     def create
       @product = Product.create(product_params)
-      authorize(@product)
+      # authorize(@product)
       if @product.valid?
         @product = Product.create(product_params)
         if @product.valid?
@@ -57,7 +63,7 @@ module Api
 
     # PATCH/PUT /products/1 or /products/1.json
     def update
-      authorize(@product)
+      # authorize(@product)
       if @product.update(product_params)
         render :update, status: :ok
       else
@@ -68,7 +74,7 @@ module Api
 
     # DELETE /products/1 or /products/1.json
     def destroy
-      authorize(@product)
+      # authorize(@product)
       if @product.destroy
       render :destroy, status: :ok
       else

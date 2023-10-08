@@ -19,7 +19,9 @@ gem "stimulus-rails"
 
 gem "jbuilder"
 
-# gem "redis", "~> 4.0"
+gem 'redis', '~> 5.0', '>= 5.0.7'
+
+gem 'redis-rails', '~> 5.0', '>= 5.0.1'
 
 # gem "kredis"
 

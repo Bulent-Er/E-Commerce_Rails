@@ -7,15 +7,22 @@ module Api
 
     # GET /categories or /categories.json
     def index
-      @categories = Category.order(created_at: :desc)
-      authorize(@categories)
+      if Rails.cache.exist?("category_query_result")
+        cached_data = Rails.cache.read("category_query_result")
+        render json: { data: cached_data, message: "The cached data has been listed above" }
+      else
+        @categories = Category.order(created_at: :desc)
+        Rails.cache.write("category_query_result", @categories, expires_in: 1.hour)
+        
+        # authorize(@categories)
 
-      render :index
+        render :index
+      end
     end
 
     # GET /categories/1 or /categories/1.json
     def show
-      authorize(@category)
+      # authorize(@category)
       render :show
     end
 
@@ -31,7 +38,7 @@ module Api
     # POST /categories or /categories.json
     def create
       @category = Category.create(category_params)
-      authorize(@category)
+      # authorize(@category)
 
       if @category.valid?
         render :create
@@ -42,7 +49,7 @@ module Api
 
     # PATCH/PUT /categories/1 or /categories/1.json
     def update
-      authorize(@category)
+      # authorize(@category)
       if @category.update(category_params)
         render :update, status: :ok
       else
@@ -52,7 +59,7 @@ module Api
 
     # DELETE /categories/1 or /categories/1.json
     def destroy
-      authorize(@category)
+      # authorize(@category)
       @category.destroy
       render :destroy, status: :ok
     end
@@ -69,4 +76,3 @@ module Api
     end
   end
 end
-
