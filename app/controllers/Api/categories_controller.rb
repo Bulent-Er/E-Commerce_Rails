@@ -2,6 +2,8 @@ module Api
   class CategoriesController < ApplicationController
     before_action :set_category, only: %i[ show edit update destroy ]
     before_action :authenticate_user!
+    before_action -> {check_user_roles(RolesType.only_admin_and_super_admin)}, only: [:create, :update, :destroy]
+    before_action -> {check_user_roles(RolesType.all_roles)}, only: [:index, :show]
 
     # GET /categories or /categories.json
     def index
