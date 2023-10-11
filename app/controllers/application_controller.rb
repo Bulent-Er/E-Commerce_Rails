@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   include Pundit::Authorization
-  include SecurityOperation
+  include Security::SecurityOperation
+  include Security::RolesType
+  include Cache::RedisCache
 
   protect_from_forgery with: :null_session
   before_action :configure_permitted_parameters, if: :devise_controller?

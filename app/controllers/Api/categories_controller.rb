@@ -2,22 +2,19 @@ module Api
   class CategoriesController < ApplicationController
     before_action :set_category, only: %i[ show edit update destroy ]
     before_action :authenticate_user!
-    before_action -> {check_user_roles(RolesType.only_admin_and_super_admin)}, only: [:create, :update, :destroy]
-    before_action -> {check_user_roles(RolesType.all_roles)}, only: [:index, :show]
+
+    before_action -> {check_user_roles(Security::RolesType.only_admin_and_super_admin)}, only: [:create, :update, :destroy]
+    before_action -> {check_user_roles(Security::RolesType.all_roles)}, only: [:index, :show]
+    before_action :read_cache, only: [:index, :show]
+   
+    after_action -> { write_cache(@category) }, only: [:index, :show], if: -> { @is_cached == false }
+    after_action  :remove_cache, only: [:create, :update, :destroy]
 
     # GET /categories or /categories.json
     def index
-      if Rails.cache.exist?("category_query_result")
-        cached_data = Rails.cache.read("category_query_result")
-        render json: { data: cached_data, message: "The cached data has been listed above" }
-      else
-        @categories = Category.order(created_at: :desc)
-        Rails.cache.write("category_query_result", @categories, expires_in: 1.hour)
-        
+        @category = Category.order(created_at: :desc)
         # authorize(@categories)
-
         render :index
-      end
     end
 
     # GET /categories/1 or /categories/1.json

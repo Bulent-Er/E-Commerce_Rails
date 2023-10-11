@@ -1,29 +1,27 @@
 module Api
   class ProductsController < ApplicationController
+    before_action -> {check_user_roles(Security::RolesType.only_admin_and_super_admin)}, only: [:create, :update, :destroy]
+    before_action -> {check_user_roles(Security::RolesType.all_roles)}, only: [:index, :show]
+    
     before_action :set_product, only: %i[ show edit update destroy ]
     before_action :authenticate_user!
-    before_action -> {check_user_roles(RolesType.only_admin_and_super_admin)}, only: [:create, :update, :destroy]
-    before_action -> {check_user_roles(RolesType.all_roles)}, only: [:index, :show]
-
+    before_action :read_cache, only: [:index, :show]
+   
+    after_action -> { write_cache(@product) }, only: [:index, :show, :get_by_name], if: -> { @is_cached == false }
+    after_action  :remove_cache, only: [:create, :update, :destroy]
 
     # after_action  :test_method, only: [ :create ] #bu şekilde de kullanabiliriz
 
     # GET /products or /products.json
     def index
       # authorize(@product)
-      if Rails.cache.exist?("product_query_result")
-        cached_data = Rails.cache.read("product_query_result")
-        render json: { data: cached_data, message: "The cached data has been listed above" }
-      else
-        @products = Product.all.order(created_at: :desc)
-        Rails.cache.write("product_query_result", @products, expires_in: 1.hour)
+        @product = Product.all.order(created_at: :desc)
         render :index
        # binding.irb
       # respond_to do |format|
       #   format.json { render json: { data: { product: @product, category: @product&.category_id}, image: image } }
       #   format.html
       # end
-      end
     end
 
     # GET /products/1 or /products/1.json

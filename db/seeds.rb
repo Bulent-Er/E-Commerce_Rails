@@ -12,3 +12,9 @@ Category.create(name:"Leptop", description: "Office")
 end
 
 User.create(first_name: "Bülent", last_name: "Er", username: "bropil", email: "bropil@gmail.com", password: "123456", password_confirmation: "123456", role: 2)
+Role.create(name: "user")
+Role.create(name: "admin")
+Role.create(name: "superadmin")
+Role.create(name: "student")
+
+UserRole.create(user_id:1, role_id:3)
