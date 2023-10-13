@@ -34,6 +34,5 @@ module Log
       }
       logger.error(log.to_json)
     end
-
   end
 end

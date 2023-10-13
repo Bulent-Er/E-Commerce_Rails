@@ -59,3 +59,5 @@ end
 gem "devise_token_auth", "~> 1.2"
 
 gem "pundit", "~> 2.3"
+
+gem "sidekiq", "~> 7.1"
