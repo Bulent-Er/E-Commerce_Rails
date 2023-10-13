@@ -9,6 +9,7 @@ module Api
    
     after_action -> { write_cache(@product) }, only: [:index, :show, :get_by_name], if: -> { @is_cached == false }
     after_action  :remove_cache, only: [:create, :update, :destroy]
+    after_action  :log_file, only: [:index, :show, :create]
 
     # after_action  :test_method, only: [ :create ] #bu şekilde de kullanabiliriz
 

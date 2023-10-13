@@ -4,7 +4,9 @@ class ApplicationController < ActionController::Base
   include Security::SecurityOperation
   include Security::RolesType
   include Cache::RedisCache
-
+  include Log::FileLogger
+  include Error::ErrorHandle
+  
   protect_from_forgery with: :null_session
   before_action :configure_permitted_parameters, if: :devise_controller?
   skip_before_action :verify_authenticity_token

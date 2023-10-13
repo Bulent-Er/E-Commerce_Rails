@@ -9,6 +9,8 @@ module Api
    
     after_action -> { write_cache(@category) }, only: [:index, :show], if: -> { @is_cached == false }
     after_action  :remove_cache, only: [:create, :update, :destroy]
+    after_action  :log_file, only: [:index, :show, :create]
+
 
     # GET /categories or /categories.json
     def index
